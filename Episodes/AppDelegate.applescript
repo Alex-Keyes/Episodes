@@ -18,6 +18,7 @@ script AppDelegate
     property statusLabel : missing value
     property progressBar : missing value
     property NSTimer : class "NSTimer"
+    property feedTimer : missing value
     global resourceFolder
     global listFile
     global aria
@@ -46,6 +47,9 @@ script AppDelegate
     global myshow3
     global epcodefinal
     global vid_comment
+    global c
+    global eachShowrunning
+    
     --property showTable : missing value
     --property qualitySelect : missing value
     --property theFirstRun : 0
@@ -78,7 +82,7 @@ script AppDelegate
             set the listFile to (resourceFolder as string) & "show_list.txt" as string
             set aria to POSIX path of resourceFolder & "aria2c" as text
             set atomicParsley to POSIX path of resourceFolder & "AtomicParsley64" as text
-            set theFeedChecker to POSIX path of resourceFolder & "feedchecker.workflow" as text
+            set theFeedChecker to POSIX path of resourceFolder & "thefeedchecker.workflow" as text
             set thefaac to POSIX path of resourceFolder & "faac" as text
             set theffmpeg to POSIX path of resourceFolder & "ffmpeg" as text
             set theMediaInfo to POSIX path of resourceFolder & "mediainfo" as text
@@ -87,8 +91,8 @@ script AppDelegate
             set theTorrentDownloader to POSIX path of resourceFolder & "torrentdownloader.workflow" as text
             set the open_target_file to open for access file listFile
             try
-                set showlist to read the open_target_file
-                listOfShows's setStringValue:showlist
+                set showlist0 to read the open_target_file
+                listOfShows's setStringValue:showlist0
             end try
         end tell
         ---Currently airing Wikipedia check
@@ -341,9 +345,19 @@ script AppDelegate
         set showlist to listOfShows's stringValue() as text
         set AppleScript's text item delimiters to "
 "
+        set c to 1
+        set eachShowrunning to false
+        if (count of (text items of showlist)) is greater than 0 then set feedTimer to current application's NSTimer's scheduledTimerWithTimeInterval:5 target:me selector:"eachShow:" userInfo:(missing value) repeats:true
+    end download:
+############################################################################################################################
+    on eachShow:sender
+        set showlist to listOfShows's stringValue() as text
+        set AppleScript's text item delimiters to "
+"
         set tokens999 to text items of showlist
-        if (count of (text items of showlist)) is greater than 0 then
-            repeat with c from 1 to (count of (text items of showlist))
+        if eachShowrunning is false then
+            set eachShowrunning to true
+            if c is less than or equal to (count of text items of showlist) then
                 set showname0 to item c of tokens999
                 set AppleScript's text item delimiters to " ("
                 set showname to text item 1 of showname0
@@ -405,7 +419,6 @@ script AppDelegate
                 set currentdata2 to text item 1 of currentdata1
                 set AppleScript's text item delimiters to "E"
                 set currentdata to ((text item 1 of currentdata2) & (text item 2 of currentdata2) as integer) + 90000
-                
                 set AppleScript's text item delimiters to " \""
                 set tokens100 to text items of rss_items
                 set totalTorrents to count tokens100
@@ -425,7 +438,7 @@ script AppDelegate
                             set epnum to text item 1 of epnum0
                             try
                                 set feedepcode0 to seasonnum & epnum as integer
-                            on error
+                                on error
                                 set feedepcode0 to 0
                             end try
                             set feedepcode to feedepcode0 + 90000
@@ -447,16 +460,23 @@ script AppDelegate
                     end if
                     set currentdata to currentdata + 1
                 end repeat
-            end repeat
-            ----STATBAR3----
-            set statbar3 to current application's NSString's stringWithFormat_("%@", "Idle") --shouldn't always be idle, leave "downloading" statuses up until the episode is added to itunes...then say adding...then idle.
-            progressBar's incrementBy:incrementJump
-            statusLabel's setStringValue:statbar3
-            delay 0.01
-            progressBar's incrementBy:-100
-            ----STATBAR3----
+                set c to c + 1
+                else
+                feedTimer's invalidate()
+                ----STATBAR3----
+                set statbar3 to current application's NSString's stringWithFormat_("%@", "Idle") --shouldn't always be idle, leave "downloading" statuses up until the episode is added to itunes...then say adding...then idle.
+                set incrementJump to (100 / ((count of (text items of showlist)) + 1))
+                progressBar's incrementBy:incrementJump
+                statusLabel's setStringValue:statbar3
+                delay 0.01
+                progressBar's incrementBy:-100
+                ----STATBAR3----
+                set eachShowrunning to false
+            end if
+            set eachShowrunning to false
         end if
-    end download:
+        delay 0.01
+    end eachShow:
 ############################################################################################################################
     on process:sender
         tell application "Finder"

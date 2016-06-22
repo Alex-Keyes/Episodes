@@ -64,7 +64,7 @@
 				<key>Class Name</key>
 				<string>Get_Enclosure_URLs_of_Feed_Entries</string>
 				<key>InputUUID</key>
-				<string>7439CD50-A180-454E-85A1-29525AC84FCD</string>
+				<string>89FADBE0-35F7-4910-B32A-6D1CCB1CF7A6</string>
 				<key>Keywords</key>
 				<array>
 					<string>RSS</string>
@@ -73,31 +73,22 @@
 					<string>Subscribe</string>
 				</array>
 				<key>OutputUUID</key>
-				<string>E18F8AA8-33EE-4A39-8E28-3754D2B8FCF5</string>
+				<string>CF1D44F9-9F85-4F81-AA23-AEDE9FC08556</string>
 				<key>UUID</key>
-				<string>77560A6E-4C77-405B-82E1-4E18D390DAAE</string>
+				<string>39E9A957-9A90-427D-B049-60DE9BB26291</string>
 				<key>UnlocalizedApplications</key>
 				<array>
 					<string>Safari</string>
 				</array>
 				<key>arguments</key>
 				<dict/>
+				<key>conversionLabel</key>
+				<integer>0</integer>
 			</dict>
 		</dict>
 	</array>
 	<key>connectors</key>
 	<dict/>
-	<key>variables</key>
-	<array>
-		<dict>
-			<key>UUID</key>
-			<string>7BA1763C-FC04-4CD1-8AF2-76112B92DDE1</string>
-			<key>identifier</key>
-			<string>com.apple.Automator.Variable.Storage</string>
-			<key>name</key>
-			<string>Epcode</string>
-		</dict>
-	</array>
 	<key>workflowMetaData</key>
 	<dict>
 		<key>workflowTypeIdentifier</key>
