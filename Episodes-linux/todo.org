@@ -1,0 +1,8 @@
+* Start working on update
+** TODO automate installs for dependencies 
+*** TODO Atomic Parsley
+**** can be installed via sudo-apt get
+*** TODO Aria2c
+**** needs to be compiled from source.  available on git and uses shell script to install dependencies
+*** 
+** TODO Understand how to migrate the applescripting
