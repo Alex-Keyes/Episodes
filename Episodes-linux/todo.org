@@ -4,5 +4,5 @@
 **** can be installed via sudo-apt get
 *** TODO Aria2c
 **** needs to be compiled from source.  available on git and uses shell script to install dependencies
-*** 
-** TODO Understand how to migrate the applescripting
+** TODO Rewrite the program in Bash
+ 
